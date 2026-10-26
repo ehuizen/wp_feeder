@@ -11,3 +11,5 @@ CLAUDE.md
 CLAUDE.local.md
 .claude/
 notes/
+skills-lock.json
+.agents/
