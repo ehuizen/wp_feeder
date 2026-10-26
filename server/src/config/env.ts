@@ -1,10 +1,15 @@
 import { z } from 'zod';
 
-// Auth0, session and encryption vars are added here as their features land.
+// The encryption key is added with its feature (#4).
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(3000),
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
+  AUTH0_ISSUER_BASE_URL: z.url({ protocol: /^https$/ }),
+  AUTH0_CLIENT_ID: z.string().min(1),
+  AUTH0_CLIENT_SECRET: z.string().min(1),
+  SESSION_SECRET: z.string().min(32),
+  BASE_URL: z.url({ protocol: /^https?$/ }),
 });
 
 export type Env = z.infer<typeof envSchema>;
