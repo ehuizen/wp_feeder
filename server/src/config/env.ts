@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-// The encryption key is added with its feature (#4).
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(3000),
@@ -10,6 +9,11 @@ const envSchema = z.object({
   AUTH0_CLIENT_SECRET: z.string().min(1),
   SESSION_SECRET: z.string().min(32),
   BASE_URL: z.url({ protocol: /^https?$/ }),
+  // 32 random bytes as base64. Decoded once, only in lib/crypto.ts.
+  ENCRYPTION_KEY: z.base64().refine(
+    (key) => Buffer.from(key, 'base64').length === 32,
+    'must be 32 bytes, base64 encoded',
+  ),
 });
 
 export type Env = z.infer<typeof envSchema>;
