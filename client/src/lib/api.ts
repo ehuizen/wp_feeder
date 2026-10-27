@@ -11,14 +11,24 @@ export class ApiError extends Error {
   }
 }
 
-export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+type ApiOptions = {
+  // The auth gate turns this off: for /me a 401 just means "show the sign-in page".
+  redirectOn401?: boolean;
+};
+
+export async function api<T>(
+  path: string,
+  init?: RequestInit,
+  { redirectOn401 = true }: ApiOptions = {},
+): Promise<T> {
   const res = await fetch(`/api${path}`, {
     ...init,
     headers: { 'Content-Type': 'application/json', ...init?.headers },
   });
 
   if (res.status === 401) {
-    window.location.href = '/login';
+    // Mid-session 401 = the session expired: send them to sign in again.
+    if (redirectOn401) window.location.href = '/login';
     throw new ApiError(401, 'unauthorized', 'Not signed in');
   }
 
