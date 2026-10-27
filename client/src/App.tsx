@@ -1,54 +1,27 @@
-import { useEffect, useState } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
-import { api } from '@/lib/api'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import { AuthGate } from '@/auth/AuthGate'
+import { AppShell } from '@/components/AppShell'
+import { NotFoundPage, PlaceholderPage } from '@/pages/PlaceholderPage'
 
-type Health = { ok: boolean }
-
-type HealthState =
-  | { status: 'loading' }
-  | { status: 'ok' }
-  | { status: 'error'; message: string }
-
+// The URL decides the page; everything inside AppShell gets the sidebar.
 export function App() {
-  const [health, setHealth] = useState<HealthState>({ status: 'loading' })
-
-  useEffect(() => {
-    let cancelled = false
-
-    api<Health>('/health')
-      .then(() => {
-        if (!cancelled) setHealth({ status: 'ok' })
-      })
-      .catch((err: unknown) => {
-        const message = err instanceof Error ? err.message : 'Unknown error'
-        if (!cancelled) setHealth({ status: 'error', message })
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
   return (
-    <main className="mx-auto max-w-xl p-8">
-      <h1 className="text-3xl font-bold text-primary">WPFeeder</h1>
-
-      <div className="mt-4" aria-live="polite">
-        {health.status === 'loading' && (
-          <>
-            <Skeleton className="h-5 w-40" />
-            <span className="sr-only">Checking server…</span>
-          </>
-        )}
-        {health.status === 'ok' && (
-          <p className="font-medium text-success">Server: OK</p>
-        )}
-        {health.status === 'error' && (
-          <p className="font-medium text-destructive">
-            Server: unreachable ({health.message})
-          </p>
-        )}
-      </div>
-    </main>
+    <AuthGate>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppShell />}>
+            <Route index element={<PlaceholderPage title="Dashboard" />} />
+            <Route path="sites" element={<PlaceholderPage title="Sites" />} />
+            <Route path="posts" element={<PlaceholderPage title="Posts" />} />
+            <Route path="posts/new" element={<PlaceholderPage title="New post" />} />
+            <Route path="posts/:id/edit" element={<PlaceholderPage title="Edit post" />} />
+            <Route path="posts/:id/results" element={<PlaceholderPage title="Publish results" />} />
+            <Route path="distribute" element={<PlaceholderPage title="Distribute" />} />
+            <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthGate>
   )
 }

@@ -6,6 +6,7 @@ import { requireAuth } from "./auth/require-auth.js";
 import { env } from "./config/env.js";
 import { healthRouter } from "./routes/health.js";
 import { meRouter } from "./routes/me.js";
+import { signupRouter } from "./routes/signup.js";
 import { sitesRouter } from "./routes/sites.js";
 
 const clientDist = path.resolve(import.meta.dirname, "../../client/dist");
@@ -22,6 +23,7 @@ export function createApp({ authMiddleware = createAuth(env) }: AppOptions = {})
 
   // Public. Anything mounted before requireAuth needs no session.
   app.use("/api", healthRouter);
+  app.use(signupRouter);
 
   app.use("/api", requireAuth);
   app.use("/api", meRouter);
