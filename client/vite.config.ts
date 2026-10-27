@@ -17,6 +17,7 @@ export default defineConfig({
       "/login": serverUrl,
       "/logout": serverUrl,
       "/callback": serverUrl,
+      "/signup": serverUrl,
     },
   },
 });
