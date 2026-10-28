@@ -51,3 +51,64 @@ export async function listPublications(userId: string, postId: string): Promise<
   );
   return rows.map(toPublication);
 }
+
+export type PublicationUpdate = {
+  status: PublicationStatus;
+  remotePostId?: number;
+  url?: string;
+  error?: string;
+  attemptedAt?: Date;
+};
+
+// One row per (post, site). The SELECT only yields a row when both the post and the site belong to this user.
+// A failed attempt keeps the old remote id and url, so the next send updates that WordPress post.
+export async function upsertPublication(
+  userId: string,
+  postId: string,
+  siteId: string,
+  update: PublicationUpdate,
+): Promise<void> {
+  await pool.query(
+    `INSERT INTO publications (post_id, site_id, status, remote_post_id, remote_url, error_message, attempted_at)
+     SELECT p.id, s.id, $4::text, $5::bigint, $6::text, $7::text, $8::timestamptz
+     FROM posts p
+     JOIN sites s ON s.id = $2 AND s.user_id = $3
+     WHERE p.id = $1 AND p.user_id = $3
+     ON CONFLICT (post_id, site_id) DO UPDATE SET
+       status = EXCLUDED.status,
+       remote_post_id = COALESCE(EXCLUDED.remote_post_id, publications.remote_post_id),
+       remote_url = COALESCE(EXCLUDED.remote_url, publications.remote_url),
+       error_message = EXCLUDED.error_message,
+       attempted_at = COALESCE(EXCLUDED.attempted_at, publications.attempted_at)`,
+    [
+      postId,
+      siteId,
+      userId,
+      update.status,
+      update.remotePostId ?? null,
+      update.url ?? null,
+      update.error ?? null,
+      update.attemptedAt ?? null,
+    ],
+  );
+}
+
+export async function remotePostIds(userId: string, postId: string): Promise<Map<string, number>> {
+  const { rows } = await pool.query<{ site_id: string; remote_post_id: string }>(
+    `SELECT pub.site_id, pub.remote_post_id
+     FROM publications pub JOIN posts p ON p.id = pub.post_id
+     WHERE pub.post_id = $1 AND p.user_id = $2 AND pub.remote_post_id IS NOT NULL`,
+    [postId, userId],
+  );
+  return new Map(rows.map((row) => [row.site_id, Number(row.remote_post_id)]));
+}
+
+export async function failedSiteIds(userId: string, postId: string): Promise<string[]> {
+  const { rows } = await pool.query<{ site_id: string }>(
+    `SELECT pub.site_id
+     FROM publications pub JOIN posts p ON p.id = pub.post_id
+     WHERE pub.post_id = $1 AND p.user_id = $2 AND pub.status = 'failed'`,
+    [postId, userId],
+  );
+  return rows.map((row) => row.site_id);
+}

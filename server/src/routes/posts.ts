@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import * as posts from '../services/posts.js';
+import { publishPost, retryFailed } from '../services/publish.js';
 import { isUuid, sendNotFound, sendValidationError } from './http-errors.js';
 
 export const postsRouter = Router();
@@ -22,6 +23,10 @@ const updatePostSchema = z
   .strictObject(fields)
   .partial()
   .refine((changes) => Object.keys(changes).length > 0, 'Nothing to update');
+
+const publishSchema = z.object({
+  siteIds: z.array(z.uuid()).min(1).max(100),
+});
 
 postsRouter.param('id', (_req, res, next, id: string) => {
   if (!isUuid(id)) return sendNotFound(res, 'Post');
@@ -57,4 +62,20 @@ postsRouter.delete('/posts/:id', async (req, res) => {
   const deleted = await posts.deletePost(res.locals.user.id, req.params.id);
   if (!deleted) return sendNotFound(res, 'Post');
   res.status(204).end();
+});
+
+// 200 with one result per site, even when some sites failed.
+postsRouter.post('/posts/:id/publish', async (req, res) => {
+  const body = publishSchema.safeParse(req.body);
+  if (!body.success) return sendValidationError(res, body.error);
+
+  const outcome = await publishPost(res.locals.user.id, req.params.id, body.data.siteIds);
+  if (!outcome.ok) return sendNotFound(res, 'Post or site');
+  res.json({ results: outcome.results });
+});
+
+postsRouter.post('/posts/:id/retry', async (req, res) => {
+  const outcome = await retryFailed(res.locals.user.id, req.params.id);
+  if (!outcome.ok) return sendNotFound(res, 'Post');
+  res.json({ results: outcome.results });
 });
