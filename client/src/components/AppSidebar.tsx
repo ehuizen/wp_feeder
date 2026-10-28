@@ -27,7 +27,7 @@ const account: NavItem[] = [{ to: '/settings', label: 'Settings', icon: Settings
 function NavSection({ label, items }: { label: string; items: NavItem[] }) {
   return (
     <div>
-      <h2 className="px-3 text-xs font-medium tracking-wider text-sidebar-foreground/60 uppercase">
+      <h2 className="px-3 text-xs font-medium tracking-wider text-sidebar-muted-foreground uppercase">
         {label}
       </h2>
       <ul className="mt-2 flex flex-col gap-1">
@@ -39,15 +39,12 @@ function NavSection({ label, items }: { label: string; items: NavItem[] }) {
               end={to === '/'}
               className={({ isActive }) =>
                 cn(
-                  'group flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground/80 transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground',
-                  isActive && 'bg-sidebar-accent text-sidebar-foreground',
+                  'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold text-sidebar-foreground transition-colors hover:bg-muted',
+                  isActive && 'bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent',
                 )
               }
             >
-              <Icon
-                aria-hidden="true"
-                className="size-4 group-aria-[current=page]:text-sidebar-primary"
-              />
+              <Icon aria-hidden="true" className="size-4" />
               {label}
             </NavLink>
           </li>
@@ -70,7 +67,7 @@ export function AppSidebar() {
   const user = useCurrentUser()
 
   return (
-    <aside className="flex h-svh w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground">
+    <aside className="flex h-svh w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar text-sidebar-foreground">
       <div className="px-6 pt-6 pb-8">
         <img src={logoUrl} alt="WPFeeder" width={148} height={26} />
       </div>
@@ -89,13 +86,13 @@ export function AppSidebar() {
         </span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium">{user.name ?? 'Signed in'}</p>
-          {user.email && <p className="truncate text-xs text-sidebar-foreground/60">{user.email}</p>}
+          {user.email && <p className="truncate text-xs text-sidebar-muted-foreground">{user.email}</p>}
         </div>
         {/* /logout is a server route (Auth0), so a real link, not a router Link. */}
         <a
           href="/logout"
           aria-label="Sign out"
-          className="rounded-md p-2 text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-foreground"
+          className="rounded-md p-2 text-sidebar-foreground hover:bg-muted"
         >
           <LogOut aria-hidden="true" className="size-4" />
         </a>
