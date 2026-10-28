@@ -7,8 +7,9 @@ import { DistributePage } from '@/features/distribute/DistributePage'
 import { EditPostPage, NewPostPage } from '@/features/posts/PostEditorPage'
 import { PostsPage } from '@/features/posts/PostsPage'
 import { ResultsPage } from '@/features/results/ResultsPage'
+import { SettingsPage } from '@/features/settings/SettingsPage'
 import { SitesPage } from '@/features/sites/SitesPage'
-import { NotFoundPage, PlaceholderPage } from '@/pages/PlaceholderPage'
+import { NotFoundPage } from '@/pages/NotFoundPage'
 
 export function App() {
   return (
@@ -23,7 +24,7 @@ export function App() {
             <Route path="posts/:id/edit" element={<EditPostPage />} />
             <Route path="posts/:id/results" element={<ResultsPage />} />
             <Route path="distribute" element={<DistributePage />} />
-            <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+            <Route path="settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
