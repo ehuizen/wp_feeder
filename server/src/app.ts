@@ -20,6 +20,8 @@ type AppOptions = {
 
 export function createApp({ authMiddleware = createAuth(env) }: AppOptions = {}) {
   const app = express();
+  // Render and nginx terminate HTTPS in front of Node; trust their X-Forwarded-* headers so secure cookies work.
+  app.set("trust proxy", 1);
   app.use(express.json());
   app.use(authMiddleware);
 
