@@ -7,6 +7,7 @@ import { requireAuth } from "./auth/require-auth.js";
 import { env } from "./config/env.js";
 import { healthRouter } from "./routes/health.js";
 import { meRouter } from "./routes/me.js";
+import { postsRouter } from "./routes/posts.js";
 import { signupRouter } from "./routes/signup.js";
 import { sitesRouter } from "./routes/sites.js";
 
@@ -29,6 +30,7 @@ export function createApp({ authMiddleware = createAuth(env) }: AppOptions = {})
   app.use("/api", requireAuth);
   app.use("/api", meRouter);
   app.use("/api", sitesRouter);
+  app.use("/api", postsRouter);
   app.use("/api", (_req, res) => {
     res.status(404).json({ error: { code: "not_found", message: "Route not found" } });
   });
