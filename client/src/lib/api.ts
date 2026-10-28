@@ -1,14 +1,18 @@
 // The one helper every request goes through: calls /api and turns failures into ApiError.
-type ErrorBody = { error: { code: string; message: string } };
+export type FieldErrors = Record<string, string[] | undefined>;
+
+type ErrorBody = { error: { code: string; message: string; fields?: FieldErrors } };
 
 export class ApiError extends Error {
   readonly status: number;
   readonly code: string;
+  readonly fields: FieldErrors;
 
-  constructor(status: number, code: string, message: string) {
+  constructor(status: number, code: string, message: string, fields: FieldErrors = {}) {
     super(message);
     this.status = status;
     this.code = code;
+    this.fields = fields;
   }
 }
 
@@ -39,6 +43,7 @@ export async function api<T>(
       res.status,
       body?.error.code ?? 'unknown',
       body?.error.message ?? res.statusText,
+      body?.error.fields,
     );
   }
 
