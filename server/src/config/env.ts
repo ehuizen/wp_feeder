@@ -5,6 +5,8 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.coerce.number().int().positive().default(3000),
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
+  // "true"/"false". Unset: on in production. Set false for a database on the same machine or private network.
+  DATABASE_SSL: z.stringbool().optional(),
   AUTH0_ISSUER_BASE_URL: z.url({ protocol: /^https$/ }),
   AUTH0_CLIENT_ID: z.string().min(1),
   AUTH0_CLIENT_SECRET: z.string().min(1),
