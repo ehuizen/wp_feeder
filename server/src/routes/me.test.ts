@@ -42,3 +42,23 @@ describe('GET /api/me', () => {
     expect(await countUsers(sub)).toBe(1);
   });
 });
+
+describe('DELETE /api/me', () => {
+  it('deletes the user and everything they own', async () => {
+    const sub = 'auth0|me-delete';
+    const app = createApp({ authMiddleware: signedInAs({ sub }) });
+    const { body: me } = await request(app).get('/api/me');
+    await request(app).post('/api/posts').send({ title: 'Goes away' });
+
+    const res = await request(app).delete('/api/me');
+
+    expect(res.status).toBe(204);
+    expect(await countUsers(sub)).toBe(0);
+    const { rows } = await pool.query('SELECT 1 FROM posts WHERE user_id = $1', [me.id]);
+    expect(rows).toHaveLength(0);
+  });
+
+  it('returns 401 without a session', async () => {
+    expect((await request(createApp()).delete('/api/me')).status).toBe(401);
+  });
+});
