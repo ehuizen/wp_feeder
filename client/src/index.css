@@ -5,6 +5,8 @@
 @theme inline {
     --font-heading: 'Roboto', sans-serif;
     --font-sans: 'Open Sans', sans-serif;
+    --font-serif: 'Lora', serif;
+    --color-sidebar-muted-foreground: var(--sidebar-muted-foreground);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -22,6 +24,7 @@
     --color-input: var(--input);
     --color-border: var(--border);
     --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent: var(--accent);
     --color-muted-foreground: var(--muted-foreground);
@@ -45,6 +48,11 @@
     --color-warning: var(--warning);
     --color-warning-subtle: var(--warning-subtle);
     --color-destructive-subtle: var(--destructive-subtle);
+    --color-heading: var(--heading);
+    --color-editorial-accent: var(--editorial-accent);
+    --color-highlight: var(--highlight);
+    --color-review: var(--review);
+    --color-review-foreground: var(--review-foreground);
 
     /* Figma radii: sm 4, md 6, lg 8, xl 12 */
     --radius-sm: 0.25rem;
@@ -59,13 +67,13 @@
 /* Light only for V1 */
 :root {
     --radius: 0.5rem;
-    --background: #F9F9F9;
+    --background: #F7F6F0;
     --foreground: #1E1E1E;
     --card: #FFFFFF;
     --card-foreground: #1E1E1E;
     --popover: #FFFFFF;
     --popover-foreground: #1E1E1E;
-    --primary: #042C71;
+    --primary: #15803D;
     --primary-foreground: #FFFFFF;
     --secondary: #E6EDF6;
     --secondary-foreground: #042C71;
@@ -74,25 +82,32 @@
     --accent: #F8DCCB;
     --accent-foreground: #1E1E1E;
     --destructive: #B42318;
+    --destructive-foreground: #FFFFFF;
     --border: #E4E4E1;
     --input: #D0D0D0;
-    --ring: #6B8EB7;
+    --ring: #15803D;
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
-    --sidebar: #1E1E1E;
-    --sidebar-foreground: #F9F9F9;
-    --sidebar-primary: #E38752;
-    --sidebar-primary-foreground: #1E1E1E;
-    --sidebar-accent: #2E2E2B;
+    --sidebar: #FFFFFF;
+    --sidebar-foreground: #1E1E1E;
+    --sidebar-muted-foreground: #767676;
+    --sidebar-primary: #15803D;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: #27724C;
     --sidebar-accent-foreground: #F9F9F9;
-    --sidebar-border: #2E2E2B;
-    --sidebar-ring: #6B8EB7;
+    --sidebar-border: #D0D0D0;
+    --sidebar-ring: #15803D;
 
-    --brand: #E38752;
-    --brand-foreground: #1E1E1E;
+    --brand: #182B23;
+    --brand-foreground: #F7F6F0;
+    --heading: #19251F;
+    --editorial-accent: #09602A;
+    --highlight: #D4F4BE;
+    --review: #5C441D;
+    --review-foreground: #F7F6F0;
     --success: #15803D;
     --success-subtle: #E8F5EC;
     --warning: #B45309;
