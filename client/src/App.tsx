@@ -2,6 +2,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { AuthGate } from '@/auth/AuthGate'
 import { AppShell } from '@/components/AppShell'
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
 import { DistributePage } from '@/features/distribute/DistributePage'
 import { EditPostPage, NewPostPage } from '@/features/posts/PostEditorPage'
 import { PostsPage } from '@/features/posts/PostsPage'
@@ -15,7 +16,7 @@ export function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<AppShell />}>
-            <Route index element={<PlaceholderPage title="Dashboard" />} />
+            <Route index element={<DashboardPage />} />
             <Route path="sites" element={<SitesPage />} />
             <Route path="posts" element={<PostsPage />} />
             <Route path="posts/new" element={<NewPostPage />} />
