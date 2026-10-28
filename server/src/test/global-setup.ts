@@ -1,3 +1,4 @@
+// Runs once before the tests: prepares the wpfeeder_test database.
 import { env } from '../config/env.js';
 import { pool } from '../db/pool.js';
 import { runMigrations } from '../db/migrate.js';

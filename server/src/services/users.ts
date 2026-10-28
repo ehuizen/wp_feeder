@@ -1,3 +1,4 @@
+// Turns an Auth0 login into our own users row.
 import { z } from 'zod';
 import { upsertUser, type User } from '../repositories/users.js';
 

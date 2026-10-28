@@ -1,4 +1,4 @@
-// route - /health
+// GET /api/health: the one public route, for uptime checks.
 import { Router } from "express";
 
 export const healthRouter = Router();

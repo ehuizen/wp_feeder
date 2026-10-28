@@ -1,3 +1,4 @@
+// SQL for the sites table; every query is filtered by user.
 import { pool } from '../db/pool.js';
 import type { Encrypted } from '../lib/crypto.js';
 

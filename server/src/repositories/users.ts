@@ -1,3 +1,4 @@
+// SQL for the users table: find or create a user by Auth0 id.
 import { pool } from '../db/pool.js';
 
 export type User = { id: string; email: string | null; name: string | null };

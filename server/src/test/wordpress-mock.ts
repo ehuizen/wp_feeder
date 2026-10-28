@@ -1,8 +1,7 @@
+// Test helper: a fake WordPress, so no test can reach a real site.
 import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
-// A fake internet for tests. Any outside call without a handler is blocked,
-// so no test can ever reach a real site.
 export const wordpress = setupServer();
 
 // Supertest calls our own app on 127.0.0.1; msw sees those too and must let them through.

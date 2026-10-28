@@ -1,9 +1,9 @@
+// Signed-out landing page; links to Auth0 sign-in and sign-up.
 import { ArrowRight } from 'lucide-react'
 import logoUrl from '@/assets/wpfeeder-logo.svg'
 import { buttonVariants } from '@/components/ui/button'
 
-// Shown by AuthGate when /api/me says 401. Both buttons leave the SPA:
-// /login and /signup are server routes that redirect to Auth0.
+// Both buttons leave the SPA: /login and /signup are server routes that redirect to Auth0.
 export function SignInPage() {
   return (
     <main className="flex min-h-svh flex-col items-center justify-center gap-8 bg-background px-4">

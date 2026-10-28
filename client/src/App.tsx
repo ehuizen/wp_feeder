@@ -1,9 +1,9 @@
+// The route table: which page shows for each URL.
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { AuthGate } from '@/auth/AuthGate'
 import { AppShell } from '@/components/AppShell'
 import { NotFoundPage, PlaceholderPage } from '@/pages/PlaceholderPage'
 
-// The URL decides the page; everything inside AppShell gets the sidebar.
 export function App() {
   return (
     <AuthGate>

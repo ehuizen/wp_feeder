@@ -1,7 +1,7 @@
+// Frame around signed-in pages: sidebar left, current page right.
 import { Outlet } from 'react-router'
 import { AppSidebar } from '@/components/AppSidebar'
 
-// The frame around every signed-in page: sidebar on the left, the current route on the right.
 export function AppShell() {
   return (
     <div className="flex h-svh">

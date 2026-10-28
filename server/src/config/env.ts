@@ -1,3 +1,4 @@
+// Checks every environment variable at startup; the server won't start if one is missing or wrong.
 import { z } from 'zod';
 
 const envSchema = z.object({

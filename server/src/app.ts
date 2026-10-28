@@ -1,3 +1,4 @@
+// Builds the Express app and mounts everything in order: auth, API routes, the built client.
 import path from "node:path";
 import express from "express";
 import type { ErrorRequestHandler, RequestHandler } from "express";
