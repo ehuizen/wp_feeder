@@ -1,3 +1,4 @@
+// Encrypts and decrypts Application Passwords; the only file that touches the key.
 import { createCipheriv, createDecipheriv, randomBytes } from 'node:crypto';
 import { env } from '../config/env.js';
 

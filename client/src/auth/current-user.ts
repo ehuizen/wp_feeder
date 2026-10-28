@@ -1,3 +1,4 @@
+// Shares the signed-in user with every page (React context).
 import { createContext, useContext } from 'react'
 
 export type CurrentUser = { id: string; email: string | null; name: string | null }

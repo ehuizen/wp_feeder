@@ -1,3 +1,4 @@
+// /api/sites endpoints: check input, call the service, turn errors into HTTP codes.
 import { Router, type Response } from 'express';
 import { z } from 'zod';
 import * as sites from '../services/sites.js';

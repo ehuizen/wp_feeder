@@ -1,3 +1,4 @@
+// Left navigation: page links, the user, and sign out.
 import {
   FileText,
   Globe,

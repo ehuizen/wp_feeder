@@ -1,3 +1,4 @@
+// Asks /api/me on load, then shows the sign-in page or the app.
 import { useEffect, useState, type ReactNode } from 'react'
 import { CurrentUserContext, type CurrentUser } from '@/auth/current-user'
 import { Skeleton } from '@/components/ui/skeleton'

@@ -1,3 +1,4 @@
+// GET /api/me: returns the signed-in user.
 import { Router } from 'express';
 
 export const meRouter = Router();

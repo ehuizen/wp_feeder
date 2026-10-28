@@ -1,3 +1,4 @@
+// The rules for sites: check the login with WordPress, encrypt the password, then save.
 import { decrypt, encrypt } from '../lib/crypto.js';
 import { verifyCredentials, type VerifyResult } from '../lib/wordpress.js';
 import * as sitesRepo from '../repositories/sites.js';

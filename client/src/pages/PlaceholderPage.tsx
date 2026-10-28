@@ -1,6 +1,6 @@
+// Stand-in for screens later issues build, so every V1 route exists now.
 import { Link } from 'react-router'
 
-// Stands in for screens that later issues build, so every V1 route exists now.
 export function PlaceholderPage({ title }: { title: string }) {
   return (
     <>

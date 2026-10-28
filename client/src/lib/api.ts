@@ -1,3 +1,4 @@
+// The one helper every request goes through: calls /api and turns failures into ApiError.
 type ErrorBody = { error: { code: string; message: string } };
 
 export class ApiError extends Error {

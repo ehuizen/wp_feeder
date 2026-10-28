@@ -1,3 +1,4 @@
+// The one shared Postgres connection pool, built from DATABASE_URL.
 import pg from 'pg';
 import { env } from '../config/env.js';
 

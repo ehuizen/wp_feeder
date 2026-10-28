@@ -1,3 +1,4 @@
+// The only file that talks to WordPress's REST API.
 const TIMEOUT_MS = 15_000;
 const USER_AGENT = 'WPFeeder/1.0';
 
