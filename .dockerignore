@@ -1,0 +1,16 @@
+# Keeps secrets, local builds and tooling out of the Docker build context.
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+**/*.log
+.git
+.github
+.claude
+.agents
+notes
+docs
+CLAUDE.md
+CLAUDE.local.md
+skills-lock.json
+render.yaml
