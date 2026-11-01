@@ -74,8 +74,10 @@ describe('001_init schema', () => {
       await db.query('DELETE FROM users WHERE id = $1', [userId]);
 
       const { rows: left } = await db.query<{ n: string }>(
-        `SELECT (SELECT count(*) FROM sites) + (SELECT count(*) FROM posts)
-              + (SELECT count(*) FROM publications) AS n`);
+        `SELECT (SELECT count(*) FROM sites WHERE user_id = $1)
+              + (SELECT count(*) FROM posts WHERE user_id = $1)
+              + (SELECT count(*) FROM publications WHERE site_id = $2) AS n`,
+        [userId, siteId]);
       expect(Number(left[0]!.n)).toBe(0);
     }));
 });
