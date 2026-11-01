@@ -6,6 +6,9 @@ dist/
 *.log
 .DS_Store
 
+# Planning docs, kept local only
+docs/
+
 # Claude Code (personal, kept local)
 CLAUDE.md
 CLAUDE.local.md

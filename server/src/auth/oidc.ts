@@ -1,4 +1,4 @@
-// Auth0 login: creates /login, /callback, /logout and reads the session cookie (see docs/adr/0002).
+// Auth0 login: creates /login, /callback, /logout and reads the session cookie.
 import type { RequestHandler } from "express";
 import { auth } from "express-openid-connect";
 import type { Env } from "../config/env.js";
