@@ -26,9 +26,7 @@ _Add screenshots of the Dashboard, Sites, Distribute and Publish results screens
 | Server | Node 24, Express 5, express-openid-connect (Auth0), Zod |
 | Database | PostgreSQL via `pg` with plain parameterized SQL and numbered migrations |
 | Tests | Vitest, Supertest, msw (WordPress is mocked) |
-| Deploy | One web service that serves the API and the built client (Render; portable to any Node host) |
-
-How it fits together is in [docs/03-architecture.md](docs/03-architecture.md).
+| Deploy | One Docker image that serves the API and the built client, with Postgres via Docker Compose, behind Caddy on a VPS |
 
 ## Run it locally
 
@@ -51,9 +49,3 @@ npm run dev                               # API on :3000, app on http://localhos
 | `npm test -w server -- publish` | Run one test file |
 | `npm run db:migrate` | Apply new files from `server/migrations/` |
 | `npm run build` then `npm start` | Production build; `start` applies migrations, then serves |
-
-## Docs
-
-- [Brief](docs/01-brief.md) · [User stories](docs/02-user-stories.md) · [Architecture](docs/03-architecture.md) · [Data model](docs/04-data-model.md) · [API](docs/05-api.md)
-- [Deploying](docs/deploy.md)
-- Decisions: [docs/adr/](docs/adr/)
