@@ -1,3 +1,4 @@
+// SQL for the users table: find or create a user by Auth0 id.
 import { pool } from '../db/pool.js';
 
 export type User = { id: string; email: string | null; name: string | null };
@@ -20,4 +21,9 @@ export async function upsertUser(
   );
   const row = rows[0]!;
   return { id: row.id, email: row.email, name: row.name };
+}
+
+// Foreign keys cascade, so this also removes the user's sites (and stored passwords), posts and publications.
+export async function deleteUser(userId: string): Promise<void> {
+  await pool.query('DELETE FROM users WHERE id = $1', [userId]);
 }

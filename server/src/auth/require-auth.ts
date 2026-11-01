@@ -1,3 +1,4 @@
+// Guards /api: 401 if signed out, otherwise loads the user into res.locals.user.
 import type { RequestHandler } from 'express';
 import type { User } from '../repositories/users.js';
 import { getOrCreateUser } from '../services/users.js';

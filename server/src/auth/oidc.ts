@@ -1,9 +1,8 @@
+// Auth0 login: creates /login, /callback, /logout and reads the session cookie (see docs/adr/0002).
 import type { RequestHandler } from "express";
 import { auth } from "express-openid-connect";
 import type { Env } from "../config/env.js";
 
-// Auth0 login for the BFF (see docs/adr/0002). Creates /login, /callback and /logout,
-// and on every request reads the encrypted session cookie into req.oidc.
 export function createAuth(env: Env): RequestHandler {
   return auth({
     authRequired: false, // /api is guarded by requireAuth (401 JSON), not by a login redirect

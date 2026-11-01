@@ -1,23 +1,30 @@
+// The route table: which page shows for each URL.
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { AuthGate } from '@/auth/AuthGate'
 import { AppShell } from '@/components/AppShell'
-import { NotFoundPage, PlaceholderPage } from '@/pages/PlaceholderPage'
+import { DashboardPage } from '@/features/dashboard/DashboardPage'
+import { DistributePage } from '@/features/distribute/DistributePage'
+import { EditPostPage, NewPostPage } from '@/features/posts/PostEditorPage'
+import { PostsPage } from '@/features/posts/PostsPage'
+import { ResultsPage } from '@/features/results/ResultsPage'
+import { SettingsPage } from '@/features/settings/SettingsPage'
+import { SitesPage } from '@/features/sites/SitesPage'
+import { NotFoundPage } from '@/pages/NotFoundPage'
 
-// The URL decides the page; everything inside AppShell gets the sidebar.
 export function App() {
   return (
     <AuthGate>
       <BrowserRouter>
         <Routes>
           <Route element={<AppShell />}>
-            <Route index element={<PlaceholderPage title="Dashboard" />} />
-            <Route path="sites" element={<PlaceholderPage title="Sites" />} />
-            <Route path="posts" element={<PlaceholderPage title="Posts" />} />
-            <Route path="posts/new" element={<PlaceholderPage title="New post" />} />
-            <Route path="posts/:id/edit" element={<PlaceholderPage title="Edit post" />} />
-            <Route path="posts/:id/results" element={<PlaceholderPage title="Publish results" />} />
-            <Route path="distribute" element={<PlaceholderPage title="Distribute" />} />
-            <Route path="settings" element={<PlaceholderPage title="Settings" />} />
+            <Route index element={<DashboardPage />} />
+            <Route path="sites" element={<SitesPage />} />
+            <Route path="posts" element={<PostsPage />} />
+            <Route path="posts/new" element={<NewPostPage />} />
+            <Route path="posts/:id/edit" element={<EditPostPage />} />
+            <Route path="posts/:id/results" element={<ResultsPage />} />
+            <Route path="distribute" element={<DistributePage />} />
+            <Route path="settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

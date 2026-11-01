@@ -1,3 +1,4 @@
+// SQL for the sites table; every query is filtered by user.
 import { pool } from '../db/pool.js';
 import type { Encrypted } from '../lib/crypto.js';
 
@@ -133,7 +134,7 @@ type CredentialsRow = {
   app_password_tag: Buffer;
 };
 
-// The ONLY query that reads the password columns. Used right before a WordPress call.
+// One of only two queries that read the password columns (with getSitesWithCredentials). Used right before a WordPress call.
 export async function getSiteCredentials(
   userId: string,
   siteId: string,
@@ -154,4 +155,29 @@ export async function getSiteCredentials(
       tag: row.app_password_tag,
     },
   };
+}
+
+export type SiteWithCredentials = { id: string; name: string } & SiteCredentials;
+
+type SiteWithCredentialsRow = CredentialsRow & { id: string; name: string };
+
+// For publishing: several sites at once, with password columns. Ids that aren't this user's are left out.
+export async function getSitesWithCredentials(userId: string, siteIds: string[]): Promise<SiteWithCredentials[]> {
+  const { rows } = await pool.query<SiteWithCredentialsRow>(
+    `SELECT id, name, base_url, wp_username, app_password_ciphertext, app_password_iv, app_password_tag
+     FROM sites WHERE user_id = $1 AND id = ANY($2::uuid[])
+     ORDER BY name`,
+    [userId, siteIds],
+  );
+  return rows.map((row) => ({
+    id: row.id,
+    name: row.name,
+    baseUrl: row.base_url,
+    wpUsername: row.wp_username,
+    appPassword: {
+      ciphertext: row.app_password_ciphertext,
+      iv: row.app_password_iv,
+      tag: row.app_password_tag,
+    },
+  }));
 }

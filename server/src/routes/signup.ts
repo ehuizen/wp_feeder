@@ -1,3 +1,4 @@
+// GET /signup: like /login, but opens Auth0 on the sign-up screen.
 import { Router } from 'express';
 
 export const signupRouter = Router();

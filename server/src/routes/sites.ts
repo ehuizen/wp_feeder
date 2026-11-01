@@ -1,7 +1,9 @@
+// /api/sites endpoints: check input, call the service, turn errors into HTTP codes.
 import { Router, type Response } from 'express';
 import { z } from 'zod';
 import * as sites from '../services/sites.js';
 import type { SiteError } from '../services/sites.js';
+import { isUuid, sendNotFound, sendValidationError } from './http-errors.js';
 
 export const sitesRouter = Router();
 
@@ -27,21 +29,10 @@ const updateSiteSchema = z
   .partial()
   .refine((changes) => Object.keys(changes).length > 0, 'Nothing to update');
 
-function sendValidationError(res: Response, error: z.ZodError): void {
-  // Zod messages describe the rule, never the submitted value, so no password can end up here.
-  res.status(400).json({
-    error: {
-      code: 'validation_error',
-      message: 'Invalid input',
-      fields: z.flattenError(error).fieldErrors,
-    },
-  });
-}
-
 function sendSiteError(res: Response, error: SiteError): void {
   switch (error.code) {
     case 'not_found':
-      res.status(404).json({ error: { code: 'not_found', message: 'Site not found' } });
+      sendNotFound(res, 'Site');
       return;
     case 'site_exists':
       res.status(409).json({
@@ -70,9 +61,9 @@ function sendSiteError(res: Response, error: SiteError): void {
   }
 }
 
-// Runs before every /sites/:id handler. A non-uuid id can't exist, so 404 without touching the DB.
+// Runs before every /sites/:id handler.
 sitesRouter.param('id', (_req, res, next, id: string) => {
-  if (!z.uuid().safeParse(id).success) {
+  if (!isUuid(id)) {
     sendSiteError(res, { code: 'not_found' });
     return;
   }

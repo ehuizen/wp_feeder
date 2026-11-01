@@ -1,5 +1,6 @@
+// Turns an Auth0 login into our own users row.
 import { z } from 'zod';
-import { upsertUser, type User } from '../repositories/users.js';
+import { deleteUser, upsertUser, type User } from '../repositories/users.js';
 
 // The ID token claims we use. Auth0 always sends sub; email and name depend on the login method.
 const claimsSchema = z.object({
@@ -11,4 +12,9 @@ const claimsSchema = z.object({
 export function getOrCreateUser(claims: unknown): Promise<User> {
   const { sub, email, name } = claimsSchema.parse(claims);
   return upsertUser(sub, email ?? null, name ?? null);
+}
+
+// Removes everything WPFeeder holds for this user. The Auth0 login itself is untouched.
+export function deleteAccount(userId: string): Promise<void> {
+  return deleteUser(userId);
 }

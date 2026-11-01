@@ -1,3 +1,4 @@
+// Runs new SQL files from server/migrations in order and records them in schema_migrations.
 import { readdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { pool } from './pool.js';
