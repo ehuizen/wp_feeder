@@ -4,9 +4,6 @@ Write a blog post once, publish it to many client WordPress sites, and see a res
 
 WPFeeder is for agencies and freelancers who look after several WordPress sites. Connect each site once with a WordPress Application Password, write the post in WPFeeder, pick the sites and publish. Every site gets its own result (Published or Failed, with the reason), and failed sites can be retried without duplicating the post on the sites that worked.
 
-## Screenshots
-
-_Add screenshots of the Dashboard, Sites, Distribute and Publish results screens here after the first deploy._
 
 ## Features (V1)
 
